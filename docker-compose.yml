@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  # testing...
+  # staging ...
+  production:
+    container_name: 'production'
+    image: production-container:1.0.0
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '1'
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        - name=value
+    environment:
+      - test=test1
+    restart: unless-stopped
+    command: 'npm run start:prod'
+    networks:
+      - 'mkl-test'
+    ports:
+      - 127.0.0.1:3000:3000
+
+networks:
+  mkl-test:
+    external: false
